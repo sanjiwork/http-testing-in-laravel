@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','HomeController@index')->name('home.index');
-Route::get('/cart', 'CartController@index')->name('cart.index');
-Route::get('/checkout','HomeController@index')->name('checkout.index');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
