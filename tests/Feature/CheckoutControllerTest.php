@@ -32,7 +32,27 @@ class CheckoutControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertViewIs('checkout.index')
             ->assertViewHas('totalCount', 1+2+1)
-            ->assertViewHas('totalAmount', 1*20+2*30+1*50)
+            ->assertViewHas('totalAmount', 1*20+(2*30*0.9)+1*50)
+            ->assertSeeText('結帳');
+    }
+
+    public function testShouldReturnStatusCode200WhenVisitCheckoutPage()
+    {
+        factory(Product::class)->create(['price' => 200]);
+        factory(Product::class)->create(['price' => 300]);
+        factory(Product::class)->create(['price' => 500]);
+        $response = $this->post('/checkout', [
+            'products' => [
+                ['id' => 1, 'quantity' => 1],
+                ['id' => 2, 'quantity' => 2],
+                ['id' => 3, 'quantity' => 1],
+            ]
+        ]);
+
+        $response->assertStatus(200)
+            ->assertViewIs('checkout.index')
+            ->assertViewHas('totalCount', 1+2+1)
+            ->assertViewHas('totalAmount', (1*200+2*300*0.9+1*500)*0.8)
             ->assertSeeText('結帳');
     }
 }
