@@ -3,7 +3,7 @@
 @section('page-title', '購物車')
 
 @section('page-style')
-<link href="{{ asset('css/form-validation.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/form-validation.css') }}" rel="stylesheet">
 @endsection
 
 @section('page-script')
@@ -27,24 +27,24 @@
                     @csrf
 
                     <ul class="list-group mb-3">
-                        @foreach($products as $index => $produst)
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div class="col-9">
-                                <h6 class="my-0">{{ $produst->name }}</h6>
-                                <small class="text-muted">{{ $produst->description }}</small>
-                                <input type="hidden" name="products[{{ $index }}][id]" value="{{ $produst->id }}">
-                            </div>
-                            <div class="col-2">
-                                <select name="products[{{ $index }}][quantity]" class="form-control form-control-sm">
-                                    @foreach(range(1, 10) as $quantity)
-                                    <option>{{ $quantity }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-1">
-                                <span class="text-muted">$ {{ $produst->price }}</span>
-                            </div>
-                        </li>
+                        @foreach($products as $index => $product)
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div class="col-9">
+                                    <h6 class="my-0">{{ $product->name }}</h6>
+                                    <small class="text-muted">{{ $product->description }}</small>
+                                    <input type="hidden" name="products[{{ $index }}][id]" value="{{ $product->id }}">
+                                </div>
+                                <div class="col-2">
+                                    <select name="products[{{ $index }}][quantity]" class="form-control form-control-sm">
+                                        @foreach(range(1, 10) as $quantity)
+                                            <option>{{ $quantity }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-1">
+                                    <span class="text-muted">$ {{ $product->price }}</span>
+                                </div>
+                            </li>
                         @endforeach
                     </ul>
                     <div class="text-right">

@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/','HomeController@index')->name('home.index');
-Route::get('/cart', 'HomeController@index')->name('cart.index');
+Route::get('/cart', 'CartController@index')->name('cart.index');
+Route::get('/checkout','HomeController@index')->name('checkout.index');
