@@ -32,7 +32,7 @@ class CheckoutControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertViewIs('checkout.index')
             ->assertViewHas('totalCount', 1+2+1)
-            ->assertViewHas('totalAmount', 1*20+(2*30*0.9)+1*50)
+            ->assertViewHas('totalAmount', 1*20+2*30*0.9+1*50)
             ->assertSeeText('結帳');
     }
 

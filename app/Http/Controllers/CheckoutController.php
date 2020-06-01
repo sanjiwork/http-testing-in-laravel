@@ -16,12 +16,12 @@ class CheckoutController extends Controller
         if ($request->has('products')) {
             foreach ($request->input('products') as $item) {
                 $product = Product::findOrFail($item['id']);
-                $totalAmount += $this->discountPlan('gte2',
+                $totalAmount += $this->discountPlan('count',
                     $item['quantity'], $product->price * $item['quantity']);
                 $totalCount += $item['quantity'];
             }
         }
-        $totalAmount = $this->discountPlan('total1000', $totalCount, $totalAmount);
+        $totalAmount = $this->discountPlan('total', $totalCount, $totalAmount);
         $data = [
             'totalAmount' => $totalAmount,
             'totalCount' => $totalCount
@@ -30,19 +30,25 @@ class CheckoutController extends Controller
     }
 
     /**
-     * @param string $plan
+     * @param string $type
      * @param int $price
      * @param int $quantity
      * @return int
      */
-    private function discountPlan(string $plan, int $quantity, int $price): int
+    private function discountPlan(string $type, int $quantity, int $price): int
     {
-        switch ($plan) {
-            case 'gte2':
-                return $quantity >= 2 ? round($price * 0.9) : $price;
-            case 'total1000':
-                return $price >= 1000 ? round($price * 0.8) : $price;
+        $plan = [
+            'count' => ['count' => 2, 'discount' => 0.9],
+            'total' => ['price' => 1000, 'discount' => 0.8]
+        ];
+
+        switch ($type) {
+            case 'count':
+                return $quantity >= $plan[$type]['count'] ? round($price * $plan[$type]['discount']) : $price;
+            case 'total':
+                return $price >= $plan[$type]['price'] ? round($price * $plan[$type]['discount']) : $price;
         }
+
         return $price;
     }
 }
